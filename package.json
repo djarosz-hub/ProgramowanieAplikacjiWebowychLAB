@@ -1,0 +1,22 @@
+{
+  "name": "programowanieaplikacjiwebowychlab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djarosz-hub/ProgramowanieAplikacjiWebowychLAB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djarosz-hub/ProgramowanieAplikacjiWebowychLAB/issues"
+  },
+  "homepage": "https://github.com/djarosz-hub/ProgramowanieAplikacjiWebowychLAB#readme",
+  "dependencies": {
+    "typescript": "^4.2.3"
+  }
+}
