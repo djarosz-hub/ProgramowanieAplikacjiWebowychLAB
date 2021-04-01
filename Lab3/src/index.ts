@@ -1,2 +1,3 @@
 import Board from './Board';
-import Cell from './Cell';
+
+const board = new Board(3);
