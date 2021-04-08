@@ -60,5 +60,25 @@ const config3 = {
     filename: 'index.js'
   }
 };
-// module.exports = [config1, config2, config3];
-module.exports = config3;
+const config4 = {
+  entry: './Lab4/src/index.ts',
+  mode: 'development',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
+  },
+  output: {
+    path: path.resolve(__dirname, 'Lab4/dist'),
+    filename: 'index.js'
+  }
+};
+// module.exports = [config1, config2, config3, config4];
+module.exports = config4;
