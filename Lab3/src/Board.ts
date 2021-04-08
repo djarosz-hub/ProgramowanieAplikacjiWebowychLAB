@@ -126,23 +126,13 @@ export default class Board {
         let correctCellsDiagonally: number = 0;
         for (let d = 0; d < size; d++) {
             for (const cell of cells) {
-                if (cell.colPos === d && cell.rowPos === d) {
+                if (cell.rowPos === d && cell.colPos === d ||
+                    cell.colPos === size - 1 - d && cell.rowPos === d) {
                     correctCellsDiagonally++;
                 }
             }
         }
         if (correctCellsDiagonally === size) {
-            return true;
-        }
-        let correctCellsDiagonallyReverse: number = 0;
-        for (let d = 0; d < size; d++) {
-            for (const cell of cells) {
-                if (cell.colPos === size - 1 - d && cell.rowPos === d) {
-                    correctCellsDiagonallyReverse++;
-                }
-            }
-        }
-        if (correctCellsDiagonallyReverse === size) {
             return true;
         }
         return false;
