@@ -68,6 +68,10 @@ export default class Board {
             this.setHeaderValue(this.currentSymbol * 10);
             return true;
         }
+        if (this.diagonalCheck(size)) {
+            this.setHeaderValue(this.currentSymbol * 10);
+            return true;
+        }
         if (this.tieCheck(size)) {
             this.setHeaderValue(0);
             return true;
@@ -76,16 +80,19 @@ export default class Board {
     }
     rowCheck(size: number): boolean {
         const cells = this.cellsWithActualSymbol();
-        for(let r = 0; r < size; r++){
+        if (cells.length < size) {
+            return false;
+        }
+        for (let r = 0; r < size; r++) {
             let correctCellsInRow = 0;
-            for(let c = 0; c < size; c++){
-                for(const cell of cells){
-                    if(cell.colPos === c && cell.rowPos === r){
+            for (let c = 0; c < size; c++) {
+                for (const cell of cells) {
+                    if (cell.colPos === c && cell.rowPos === r) {
                         correctCellsInRow++;
                     }
                 }
             }
-            if(correctCellsInRow === size){
+            if (correctCellsInRow === size) {
                 return true;
             }
         }
@@ -93,18 +100,50 @@ export default class Board {
     }
     columnCheck(size: number): boolean {
         const cells = this.cellsWithActualSymbol();
-        for(let c = 0; c < size; c++){
+        if (cells.length < size) {
+            return false;
+        }
+        for (let c = 0; c < size; c++) {
             let correctCellsInColumn = 0;
-            for(let r = 0; r < size; r++){
-                for(const cell of cells){
-                    if(cell.colPos === c && cell.rowPos === r){
+            for (let r = 0; r < size; r++) {
+                for (const cell of cells) {
+                    if (cell.colPos === c && cell.rowPos === r) {
                         correctCellsInColumn++;
                     }
                 }
             }
-            if(correctCellsInColumn === size){
+            if (correctCellsInColumn === size) {
                 return true;
             }
+        }
+        return false;
+    }
+    diagonalCheck(size: number): boolean {
+        const cells = this.cellsWithActualSymbol();
+        if (cells.length < size) {
+            return false;
+        }
+        let correctCellsDiagonally: number = 0;
+        for (let d = 0; d < size; d++) {
+            for (const cell of cells) {
+                if (cell.colPos === d && cell.rowPos === d) {
+                    correctCellsDiagonally++;
+                }
+            }
+        }
+        if (correctCellsDiagonally === size) {
+            return true;
+        }
+        let correctCellsDiagonallyReverse: number = 0;
+        for (let d = 0; d < size; d++) {
+            for (const cell of cells) {
+                if (cell.colPos === size - 1 - d && cell.rowPos === d) {
+                    correctCellsDiagonallyReverse++;
+                }
+            }
+        }
+        if (correctCellsDiagonallyReverse === size) {
+            return true;
         }
         return false;
     }
@@ -112,11 +151,11 @@ export default class Board {
         return false;
 
     }
-    cellsWithActualSymbol():Cell[]{
-        const correctCells:Cell[] = [];
+    cellsWithActualSymbol(): Cell[] {
+        const correctCells: Cell[] = [];
         for (const cell of this.cells) {
             if (cell.cellValue === this.currentSymbol)
-            correctCells.push(cell);
+                correctCells.push(cell);
         }
         return correctCells;
     }
