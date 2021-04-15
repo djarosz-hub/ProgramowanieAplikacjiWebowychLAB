@@ -7,26 +7,120 @@
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./Lab4/src/gamesEnum.ts":
+/*!*******************************!*\
+  !*** ./Lab4/src/gamesEnum.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Games\": () => (/* binding */ Games)\n/* harmony export */ });\nvar Games;\r\n(function (Games) {\r\n    Games[Games[\"TicTacToe\"] = 1] = \"TicTacToe\";\r\n})(Games || (Games = {}));\r\n\n\n//# sourceURL=webpack://programowanieaplikacjiwebowychlab/./Lab4/src/gamesEnum.ts?");
+
+/***/ }),
 
 /***/ "./Lab4/src/index.ts":
 /*!***************************!*\
   !*** ./Lab4/src/index.ts ***!
   \***************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("console.log('dldld');\r\n\n\n//# sourceURL=webpack://programowanieaplikacjiwebowychlab/./Lab4/src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _gamesEnum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gamesEnum */ \"./Lab4/src/gamesEnum.ts\");\n/* harmony import */ var _tictactoe_tictactoe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tictactoe/tictactoe */ \"./Lab4/src/tictactoe/tictactoe.ts\");\n\r\n\r\nclass App {\r\n    constructor() {\r\n        this.init();\r\n    }\r\n    init() {\r\n        const menuContainer = (document.createElement('div'));\r\n        const gameContainer = (document.createElement('div'));\r\n        const list = document.createElement('ul');\r\n        menuContainer.setAttribute(\"id\", \"gameList\");\r\n        gameContainer.setAttribute(\"id\", \"gameSpot\");\r\n        for (const gameKind of Object.keys(_gamesEnum__WEBPACK_IMPORTED_MODULE_0__.Games)) {\r\n            if (isNaN(Number(gameKind)))\r\n                continue;\r\n            const game = gameFactory.getGame(Number(gameKind));\r\n            const item = document.createElement('li');\r\n            item.appendChild(document.createTextNode(game.name));\r\n            item.addEventListener(\"click\", () => {\r\n                gameContainer.innerHTML = \"\";\r\n                gameContainer.appendChild(game.getGameElement());\r\n            });\r\n            list.appendChild(item);\r\n        }\r\n        menuContainer.appendChild(list);\r\n        const main = document.createElement('main');\r\n        main.setAttribute('id', 'mainContainer');\r\n        main.appendChild(menuContainer);\r\n        main.appendChild(gameContainer);\r\n        document.body.appendChild(main);\r\n    }\r\n}\r\nclass GameFactory {\r\n    getGame(game) {\r\n        switch (game) {\r\n            case _gamesEnum__WEBPACK_IMPORTED_MODULE_0__.Games.TicTacToe:\r\n                return new _tictactoe_tictactoe__WEBPACK_IMPORTED_MODULE_1__.TicTacToe;\r\n            default:\r\n                throw new Error('invalid game');\r\n        }\r\n    }\r\n}\r\nlet gameFactory = new GameFactory();\r\nnew App();\r\n\n\n//# sourceURL=webpack://programowanieaplikacjiwebowychlab/./Lab4/src/index.ts?");
+
+/***/ }),
+
+/***/ "./Lab4/src/tictactoe/Board.ts":
+/*!*************************************!*\
+  !*** ./Lab4/src/tictactoe/Board.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Board)\n/* harmony export */ });\n/* harmony import */ var _Cell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Cell */ \"./Lab4/src/tictactoe/Cell.ts\");\n\r\nclass Board {\r\n    constructor(size) {\r\n        this.currentSymbol = 1;\r\n        this.cells = new Array(size);\r\n        this.tableSize = size;\r\n        let table = document.getElementById(\"tictactoe\");\r\n        let i = 0;\r\n        for (let r = 0; r < size; r++) {\r\n            let row = table.insertRow(r);\r\n            for (let c = 0; c < size; c++) {\r\n                let cell = row.insertCell(c);\r\n                cell.className = \"cell\";\r\n                const newCell = new _Cell__WEBPACK_IMPORTED_MODULE_0__.default(cell, r, c);\r\n                this.cells[i] = newCell;\r\n                cell.addEventListener(\"click\", () => this.makeMove(newCell), false);\r\n                i++;\r\n            }\r\n        }\r\n    }\r\n    setHeaderValue(currSymbol) {\r\n        const header = document.getElementById('tttHeader');\r\n        let val = \"\";\r\n        switch (currSymbol) {\r\n            case 1: {\r\n                val = 'Ruch: krzyżyk';\r\n                break;\r\n            }\r\n            case -1: {\r\n                val = 'Ruch: kółko';\r\n                break;\r\n            }\r\n            case 10: {\r\n                val = 'Wygrywa krzyżyk';\r\n                break;\r\n            }\r\n            case -10: {\r\n                val = 'Wygrywa kółko';\r\n                break;\r\n            }\r\n            case 0: {\r\n                val = 'Remis!';\r\n                break;\r\n            }\r\n        }\r\n        header.innerHTML = val;\r\n    }\r\n    makeMove(cell) {\r\n        if (cell.setCellValue(this.currentSymbol)) {\r\n            if (this.checkForGameFinish()) {\r\n                return;\r\n            }\r\n            this.currentSymbol *= -1;\r\n            this.setHeaderValue(this.currentSymbol);\r\n        }\r\n    }\r\n    checkForGameFinish() {\r\n        const size = this.tableSize;\r\n        if (this.rowCheck(size)) {\r\n            this.setHeaderValue(this.currentSymbol * 10);\r\n            return true;\r\n        }\r\n        if (this.columnCheck(size)) {\r\n            this.setHeaderValue(this.currentSymbol * 10);\r\n            return true;\r\n        }\r\n        if (this.diagonalCheck(size)) {\r\n            this.setHeaderValue(this.currentSymbol * 10);\r\n            return true;\r\n        }\r\n        if (this.tieCheck(size)) {\r\n            this.setHeaderValue(0);\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n    rowCheck(size) {\r\n        const cells = this.cellsWithActualSymbol();\r\n        if (cells.length < size) {\r\n            return false;\r\n        }\r\n        for (let r = 0; r < size; r++) {\r\n            let correctCellsInRow = 0;\r\n            for (let c = 0; c < size; c++) {\r\n                for (const cell of cells) {\r\n                    if (cell.colPos === c && cell.rowPos === r) {\r\n                        correctCellsInRow++;\r\n                    }\r\n                }\r\n            }\r\n            if (correctCellsInRow === size) {\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    columnCheck(size) {\r\n        const cells = this.cellsWithActualSymbol();\r\n        if (cells.length < size) {\r\n            return false;\r\n        }\r\n        for (let c = 0; c < size; c++) {\r\n            let correctCellsInColumn = 0;\r\n            for (let r = 0; r < size; r++) {\r\n                for (const cell of cells) {\r\n                    if (cell.colPos === c && cell.rowPos === r) {\r\n                        correctCellsInColumn++;\r\n                    }\r\n                }\r\n            }\r\n            if (correctCellsInColumn === size) {\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    diagonalCheck(size) {\r\n        const cells = this.cellsWithActualSymbol();\r\n        if (cells.length < size) {\r\n            return false;\r\n        }\r\n        let correctCellsDiagonally = 0;\r\n        for (let d = 0; d < size; d++) {\r\n            for (const cell of cells) {\r\n                if (cell.rowPos === d && cell.colPos === d ||\r\n                    cell.colPos === size - 1 - d && cell.rowPos === d) {\r\n                    correctCellsDiagonally++;\r\n                }\r\n            }\r\n        }\r\n        if (correctCellsDiagonally === size) {\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n    tieCheck(size) {\r\n        return false;\r\n    }\r\n    cellsWithActualSymbol() {\r\n        const correctCells = [];\r\n        for (const cell of this.cells) {\r\n            if (cell.cellValue === this.currentSymbol)\r\n                correctCells.push(cell);\r\n        }\r\n        return correctCells;\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://programowanieaplikacjiwebowychlab/./Lab4/src/tictactoe/Board.ts?");
+
+/***/ }),
+
+/***/ "./Lab4/src/tictactoe/Cell.ts":
+/*!************************************!*\
+  !*** ./Lab4/src/tictactoe/Cell.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Cell)\n/* harmony export */ });\nclass Cell {\r\n    constructor(cell, rowPos, colPos) {\r\n        this.htmlElement = cell;\r\n        this.rowPos = rowPos;\r\n        this.colPos = colPos;\r\n    }\r\n    setCellValue(value) {\r\n        if (this.cellValue === 1 || this.cellValue === -1)\r\n            return false;\r\n        this.cellValue = value;\r\n        switch (this.cellValue) {\r\n            case -1: {\r\n                this.htmlElement.innerHTML = \"O\";\r\n                break;\r\n            }\r\n            case 1: {\r\n                this.htmlElement.innerHTML = \"X\";\r\n                break;\r\n            }\r\n        }\r\n        return true;\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://programowanieaplikacjiwebowychlab/./Lab4/src/tictactoe/Cell.ts?");
+
+/***/ }),
+
+/***/ "./Lab4/src/tictactoe/tictactoe.ts":
+/*!*****************************************!*\
+  !*** ./Lab4/src/tictactoe/tictactoe.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"TicTacToe\": () => (/* binding */ TicTacToe)\n/* harmony export */ });\n/* harmony import */ var _Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Board */ \"./Lab4/src/tictactoe/Board.ts\");\n\r\nclass TicTacToe {\r\n    constructor() {\r\n        this.name = \"Kółko i krzyżyk\";\r\n    }\r\n    getGameElement() {\r\n        const container = document.createElement('div');\r\n        const header = document.createElement('div');\r\n        header.setAttribute('id', 'tttHeader');\r\n        const table = document.createElement('table');\r\n        table.setAttribute('id', 'tictactoe');\r\n        container.appendChild(document.createTextNode(\"Hello TicTacToe\"));\r\n        container.appendChild(header);\r\n        container.appendChild(table);\r\n        let tableSize = 3;\r\n        setTimeout(() => new _Board__WEBPACK_IMPORTED_MODULE_0__.default(tableSize), 1);\r\n        return container;\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://programowanieaplikacjiwebowychlab/./Lab4/src/tictactoe/tictactoe.ts?");
 
 /***/ })
 
 /******/ 	});
 /************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./Lab4/src/index.ts"]();
+/******/ 	var __webpack_exports__ = __webpack_require__("./Lab4/src/index.ts");
 /******/ 	
 /******/ })()
 ;
