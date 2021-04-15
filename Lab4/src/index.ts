@@ -1,7 +1,7 @@
 import { Games } from "./gamesEnum";
 import { Game } from "./gameModel";
 import { TicTacToe } from "./tictactoe/tictactoe";
-// import './styles/styles.scss';
+import './styles/styles.scss';
 
 class App {
 

@@ -1,0 +1,7 @@
+@import 'main';
+@import 'menu';
+@import 'game';
+$body-color: rgb(238, 238, 167);
+body {
+    background-color: $body-color;
+}
