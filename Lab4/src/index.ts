@@ -2,7 +2,7 @@ import { Games } from "./gamesEnum";
 import { Game } from "./gameModel";
 import { TicTacToe } from "./tictactoe/tictactoe";
 import './styles/styles.scss';
-
+import Switcher from './switcher';
 class App {
 
     constructor() {
@@ -12,9 +12,12 @@ class App {
     init(): void {
         const menuContainer = <HTMLDivElement>(document.createElement('div'));
         const gameContainer = <HTMLDivElement>(document.createElement('div'));
+        const menuHeader = <HTMLDivElement>(document.createElement('div'));
         const list = document.createElement('ul');
-        menuContainer.setAttribute("id","gameList");
-        gameContainer.setAttribute("id","gameSpot");
+
+        menuContainer.className = 'menu';
+        gameContainer.className ='gameSpot';
+
 
         for(const gameKind of Object.keys(Games)){
             if(isNaN(Number(gameKind)))
@@ -28,12 +31,18 @@ class App {
             })
             list.appendChild(item);
         }
+        const menuHeaderP = <HTMLElement>document.createElement('p');
+        menuHeaderP.innerHTML = 'Dostępne gry:';
+        menuHeader.appendChild(menuHeaderP);
+        menuContainer.appendChild(menuHeader);
         menuContainer.appendChild(list);
-        const main = document.createElement('main');
-        main.setAttribute('id','mainContainer');
+
+        const main = <HTMLElement>document.createElement('main');
+        main.className = 'mainContainer';
         main.appendChild(menuContainer);
         main.appendChild(gameContainer);
         document.body.appendChild(main);
+        new Switcher();
     }
 }
 class GameFactory {
