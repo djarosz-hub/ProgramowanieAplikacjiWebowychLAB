@@ -1,42 +1,31 @@
-@import 'variables';
-@import 'mixins';
-@import 'main';
-@import 'menu';
-@import 'game';
-@import '../tictactoe/styles/styles.scss';
-
+@import "variables";
+@import "mixins";
+@import "main";
+@import "menu";
+@import "game";
+@import "darkTheme";
+@import "switcher";
+@import "back";
+@import "../tictactoe/styles/styles.scss";
 body {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background: $body-color;
-    margin:0;
-    padding:0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background: $body-color;
+  margin: 0;
+  padding: 0;
 }
-header{
-    display:flex;
-    justify-content: center;
-    align-content: center;
-    box-shadow: 0px 5px 15px black;
-    z-index: 100;
-    margin-bottom:20px;
-    
-    p {
-        color:rgb(255, 255, 255);
-        font-weight: bold;
-        font-size:50px;
-        text-shadow: 0px 2px 5px black;
-        margin:30px;
-    }
-}
-.switcher{
-    background:pink;
-    width:50px;
-    height:50px;
-    position:fixed;
-    top: $switcherTopPos;
-    right: $switcherRightPos;
-    border-radius:50%;
-    &:hover{
-        background: $switcherHoverColor;
-        transition: $transitionTime;
-    }
+header {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  box-shadow: 0px 5px 15px black;
+  z-index: 100;
+  margin-bottom: 20px;
+
+  p {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 50px;
+    text-shadow: 0px 2px 5px black;
+    margin: 30px;
+  }
 }

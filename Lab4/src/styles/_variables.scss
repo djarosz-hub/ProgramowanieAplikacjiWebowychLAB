@@ -1,8 +1,17 @@
 // main
 $body-color: rgba(184, 221, 255, 0.39);
 $transitionTime: .3s;
+$defaultMargin: 10px;
 
 // switcher
 $switcherTopPos: 20px;
 $switcherRightPos: 20px;
 $switcherHoverColor: rgba(255, 255, 255, 0.473);
+
+//menu
+$menuWidth: 20%;
+
+//game
+$gameSpotWidth: 80%;
+$gameHeaderFontSize: 35px;
+$gameResponseFontSize: 25px;

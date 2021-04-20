@@ -1,0 +1,22 @@
+@import 'variables';
+
+.switcher {
+    background: pink;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    top: $switcherTopPos;
+    right: $switcherRightPos;
+    border-radius: 50%;
+    &:hover {
+      background: $switcherHoverColor;
+      transition: $transitionTime;
+    }
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    i {
+      font-size:30px;
+    }
+  }
+  

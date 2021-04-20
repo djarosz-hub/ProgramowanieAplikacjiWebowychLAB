@@ -3,29 +3,40 @@ import { Game } from "./gameModel";
 import { TicTacToe } from "./tictactoe/tictactoe";
 import './styles/styles.scss';
 import Switcher from './switcher';
+import Back from './back';
+
 class App {
 
     constructor() {
         this.init();
     }
-
+    greetingText(): HTMLDivElement {
+        const greeting = document.createElement('div');
+        greeting.setAttribute('id', 'greeting');
+        greeting.innerHTML = 'Wybierz giere wariacie ( ͡° ͜ʖ ͡°)';
+        return greeting;
+    }
     init(): void {
         const menuContainer = <HTMLDivElement>(document.createElement('div'));
         const gameContainer = <HTMLDivElement>(document.createElement('div'));
         const menuHeader = <HTMLDivElement>(document.createElement('div'));
         const list = document.createElement('ul');
 
-        menuContainer.className = 'menu';
-        gameContainer.className ='gameSpot';
+        menuContainer.setAttribute('id','menu');
+        gameContainer.className = 'gameSpot';
+        gameContainer.setAttribute('id', 'gameContainer');
+        gameContainer.appendChild(this.greetingText());
 
-
-        for(const gameKind of Object.keys(Games)){
-            if(isNaN(Number(gameKind)))
+        for (const gameKind of Object.keys(Games)) {
+            if (isNaN(Number(gameKind)))
                 continue;
             const game = gameFactory.getGame(Number(gameKind));
             const item = document.createElement('li');
             item.appendChild(document.createTextNode(game.name));
-            item.addEventListener("click", ()=>{
+            item.addEventListener("click", () => {
+                const greet = document.getElementById('back');
+                greet?.classList.remove('backHidden')
+                menuContainer.setAttribute('hidden','true');
                 gameContainer.innerHTML = "";
                 gameContainer.appendChild(game.getGameElement());
             })
@@ -43,6 +54,7 @@ class App {
         main.appendChild(gameContainer);
         document.body.appendChild(main);
         new Switcher();
+        new Back();
     }
 }
 class GameFactory {

@@ -1,8 +1,12 @@
-.menu{
-    width:250px;
-    // height:auto;
-    margin-left:10px;
-    min-height: 300px;
+@import 'variables';
+
+#menu{
+    width: $menuWidth;
+    margin:0 10px;
+    height:100px;
+    box-sizing: border-box;
+    // min-height: 100px;
+    // max-height: 300px;
     @include defaultBorder(2px, rgb(82, 86, 145));
     div {
         background: rgb(165, 90, 94);
@@ -18,10 +22,6 @@
         }
     }
     li {
-        // display:flex;
-        // align-content: center;
-        // justify-content: center;
-        // text-align: center;
         padding:5px;
         text-transform:uppercase;
         &:hover{
@@ -29,4 +29,7 @@
             transition: $transitionTime;
         }
     }
+}
+[hidden='true']{
+    display:none;
 }

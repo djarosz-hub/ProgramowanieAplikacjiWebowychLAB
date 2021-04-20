@@ -20,6 +20,7 @@ export default class Board {
                 i++;
             }
         }
+        this.setHeaderValue(this.currentSymbol);
     }
     setHeaderValue(currSymbol: number): void {
         const header = <HTMLElement>document.getElementById('tttHeader');
@@ -126,8 +127,20 @@ export default class Board {
         let correctCellsDiagonally: number = 0;
         for (let d = 0; d < size; d++) {
             for (const cell of cells) {
-                if (cell.rowPos === d && cell.colPos === d ||
-                    cell.colPos === size - 1 - d && cell.rowPos === d) {
+                if (cell.rowPos === d && cell.colPos === d) {
+                    correctCellsDiagonally++;
+                }
+            }
+        }
+        if (correctCellsDiagonally === size) {
+            return true;
+        }
+        else {
+            correctCellsDiagonally = 0;
+        }
+        for (let d = 0; d < size; d++) {
+            for (const cell of cells) {
+                if (cell.colPos === size - 1 - d && cell.rowPos === d) {
                     correctCellsDiagonally++;
                 }
             }
