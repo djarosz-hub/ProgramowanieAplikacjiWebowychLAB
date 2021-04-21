@@ -4,17 +4,11 @@ import { TicTacToe } from "./tictactoe/tictactoe";
 import './styles/styles.scss';
 import Switcher from './switcher';
 import Back from './back';
-
+import {createGretting} from './commonUtils';
 class App {
 
     constructor() {
         this.init();
-    }
-    greetingText(): HTMLDivElement {
-        const greeting = document.createElement('div');
-        greeting.setAttribute('id', 'greeting');
-        greeting.innerHTML = 'Wybierz giere wariacie ( ͡° ͜ʖ ͡°)';
-        return greeting;
     }
     init(): void {
         const menuContainer = <HTMLDivElement>(document.createElement('div'));
@@ -25,7 +19,7 @@ class App {
         menuContainer.setAttribute('id','menu');
         gameContainer.className = 'gameSpot';
         gameContainer.setAttribute('id', 'gameContainer');
-        gameContainer.appendChild(this.greetingText());
+        gameContainer.appendChild(createGretting());
 
         for (const gameKind of Object.keys(Games)) {
             if (isNaN(Number(gameKind)))

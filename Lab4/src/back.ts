@@ -1,3 +1,4 @@
+import {createGretting} from './commonUtils';
 class Back {
 
     constructor() {
@@ -15,13 +16,9 @@ class Back {
             const menu = document.getElementById('menu');
             menu?.removeAttribute('hidden');
 
-            const greeting = document.createElement('div');
-            greeting.setAttribute('id', 'greeting');
-            greeting.innerHTML = 'Wybierz giere wariacie ( ͡° ͜ʖ ͡°)';
-
             const gameSpot = <HTMLElement>document.getElementById('gameContainer');
             gameSpot.innerHTML = "";
-            gameSpot.appendChild(greeting);
+            gameSpot.appendChild(createGretting());
 
         })
         document.body.appendChild(back);

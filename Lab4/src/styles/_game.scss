@@ -11,6 +11,7 @@
     display:flex;
     justify-content: center;
     position:relative;
+    color:var(--gameFontColor);
 }
 .gameHeader {
     font-size: $gameHeaderFontSize;
@@ -31,4 +32,5 @@
     position: absolute;
     left: 15%;
     top: 50%;
+    color: var(--greetingColor);
 }

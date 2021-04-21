@@ -1,12 +1,33 @@
 // main
-$body-color: rgba(184, 221, 255, 0.39);
-$transitionTime: .3s;
+$transitionTime: 0.3s;
 $defaultMargin: 10px;
+:root {
+  --bodyColor: rgba(184, 221, 255, 0.39);
+  --defaultShadow: black;
+  //header
+  --headerPColor: white;
+  //switcher
+  --switcherColor: pink;
+  --switcherHoverColor: rgb(94, 94, 94);
+  --switcherFontColor: rgb(206, 21, 21);
+  //backBtn
+  --backBtnColor: rgb(179, 26, 26);
+  --backBtnTextColor: whitesmoke;
+  //greeting
+  --greetingColor: black;
+  //menu
+  --menuHeaderColor: rgb(165, 90, 94);
+  --menuBorder: rgb(82, 86, 145);
+  --menuDivBorderBottom: rgb(59, 57, 57);
+  --liHover: wheat;
+  --menuFontColor: black;
+  //game
+  --gameFontColor:black;
+}
 
 // switcher
 $switcherTopPos: 20px;
 $switcherRightPos: 20px;
-$switcherHoverColor: rgba(255, 255, 255, 0.473);
 
 //menu
 $menuWidth: 20%;

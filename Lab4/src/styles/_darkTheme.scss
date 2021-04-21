@@ -1,4 +1,18 @@
 [dark-theme="dark"]{
-    background: black;
-    
+    --bodyColor: rgb(54, 54, 54);
+    --defaultShadow: rgb(172, 172, 172);
+    --headerPColor: rgba(255, 255, 255, 0.836);
+    --switcherColor: rgba(181, 255, 243, 0.87);
+    --switcherFontColor:rgb(61, 61, 61);
+    --switcherHoverColor:rgb(238, 247, 122);
+    --backBtnColor:rgb(107, 58, 58);
+    --backBtnTextColor:rgb(0, 0, 0);
+    --greetingColor:rgba(255, 255, 255, 0.63);
+    --menuHeaderColor: rgb(148, 148, 148);
+    --menuBorder:black;
+    --menuDivBorderBottom:rgba(0, 0, 0, 0);
+    --liHover:rgba(126, 126, 126, 0.767);
+    --menuFontColor:rgba(245, 245, 245, 0.822);
+    --gameFontColor:rgb(190, 190, 190);
+    --cellColor:rgba(219, 219, 219, 0.5);
 }   

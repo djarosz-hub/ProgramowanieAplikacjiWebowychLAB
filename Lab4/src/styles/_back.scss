@@ -1,7 +1,7 @@
 @import 'mixins';
 #back {
     position: absolute;
-    background: rgb(179, 26, 26);
+    background: var(--backBtnColor);
     border-radius: 10px;
     @include defaultBorder(2px, black);
     width: 100px;
@@ -10,7 +10,7 @@
     left: 100px;
     text-align: center;
     font-size: 30px;
-    color:whitesmoke;
+    color:var(--backBtnTextColor);
     padding:10px;
   }
   .backHidden {

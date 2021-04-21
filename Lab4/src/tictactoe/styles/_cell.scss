@@ -1,9 +1,16 @@
 .cell{
     width:100px;
     height:100px;
-    background-color: bisque;
+    background-color: var(--cellColor);
     font-size:70px;
     text-align: center;
     color:black;
     border: 2px solid black;
+}
+.winningCell{
+    background:rgb(51, 212, 51);
+    color:cornsilk;
+}
+.tieCell{
+    background:rgb(103, 156, 180);
 }
