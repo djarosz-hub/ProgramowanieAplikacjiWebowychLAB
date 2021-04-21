@@ -3,7 +3,9 @@ export default class Board {
     cells: Cell[];
     currentSymbol: number;
     tableSize: number;
+    gameFinished: boolean;
     constructor(size: number) {
+        this.gameFinished = false;
         this.currentSymbol = 1;
         this.cells = new Array(size);
         this.tableSize = size;
@@ -50,8 +52,11 @@ export default class Board {
         header.innerHTML = val;
     }
     makeMove(cell: Cell): void {
+        if (this.gameFinished)
+            return;
         if (cell.setCellValue(this.currentSymbol)) {
             if (this.checkForGameFinish()) {
+                this.gameFinished = true;
                 return;
             }
             this.currentSymbol *= -1;
@@ -81,6 +86,8 @@ export default class Board {
     }
     rowCheck(size: number): boolean {
         const cells = this.cellsWithActualSymbol();
+        const winningCells: Cell[] = [];
+
         if (cells.length < size) {
             return false;
         }
@@ -90,17 +97,24 @@ export default class Board {
                 for (const cell of cells) {
                     if (cell.colPos === c && cell.rowPos === r) {
                         correctCellsInRow++;
+                        winningCells.push(cell);
                     }
                 }
             }
             if (correctCellsInRow === size) {
+                for (const cell of winningCells) {
+                    cell.htmlElement.classList.add('winningCell');
+                }
                 return true;
             }
+            winningCells.length = 0;
         }
         return false;
     }
     columnCheck(size: number): boolean {
         const cells = this.cellsWithActualSymbol();
+        const winningCells: Cell[] = [];
+
         if (cells.length < size) {
             return false;
         }
@@ -110,17 +124,23 @@ export default class Board {
                 for (const cell of cells) {
                     if (cell.colPos === c && cell.rowPos === r) {
                         correctCellsInColumn++;
+                        winningCells.push(cell);
                     }
                 }
             }
             if (correctCellsInColumn === size) {
+                for (const cell of winningCells) {
+                    cell.htmlElement.classList.add('winningCell');
+                }
                 return true;
             }
+            winningCells.length = 0;
         }
         return false;
     }
     diagonalCheck(size: number): boolean {
         const cells = this.cellsWithActualSymbol();
+        const winningCells: Cell[] = [];
         if (cells.length < size) {
             return false;
         }
@@ -129,28 +149,44 @@ export default class Board {
             for (const cell of cells) {
                 if (cell.rowPos === d && cell.colPos === d) {
                     correctCellsDiagonally++;
+                    winningCells.push(cell);
                 }
             }
         }
         if (correctCellsDiagonally === size) {
+            for (const cell of winningCells) {
+                cell.htmlElement.classList.add('winningCell');
+            }
             return true;
         }
         else {
             correctCellsDiagonally = 0;
+            winningCells.length = 0;
         }
         for (let d = 0; d < size; d++) {
             for (const cell of cells) {
                 if (cell.colPos === size - 1 - d && cell.rowPos === d) {
                     correctCellsDiagonally++;
+                    winningCells.push(cell);
                 }
             }
         }
         if (correctCellsDiagonally === size) {
+            for (const cell of winningCells) {
+                cell.htmlElement.classList.add('winningCell');
+            }
             return true;
         }
         return false;
     }
     tieCheck(size: number): boolean {
+        const cellsFilled: Cell[] = this.cells.filter(cell => cell.cellValue == undefined);
+        if (cellsFilled.length === 0) {
+            for (const cell of this.cells) {
+                cell.htmlElement.classList.add('tieCell');
+            }
+            return true;
+        }
         return false;
 
     }
