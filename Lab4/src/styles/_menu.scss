@@ -3,11 +3,10 @@
 #menu{
     width: $menuWidth;
     margin:0 10px;
-    height:100px;
     box-sizing: border-box;
     color:var(--menuFontColor);
-    // min-height: 100px;
-    // max-height: 300px;
+    min-height: 100px;
+    max-height: 300px;
     @include defaultBorder(2px, var(--menuBorder));
     div {
         background: var(--menuHeaderColor);

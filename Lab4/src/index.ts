@@ -5,6 +5,7 @@ import './styles/styles.scss';
 import Switcher from './switcher';
 import Back from './back';
 import {createGretting} from './commonUtils';
+import { BattleShips } from "./battleShips/battleShips";
 class App {
 
     constructor() {
@@ -25,6 +26,8 @@ class App {
             if (isNaN(Number(gameKind)))
                 continue;
             const game = gameFactory.getGame(Number(gameKind));
+            if(!game.available)
+                continue;
             const item = document.createElement('li');
             item.appendChild(document.createTextNode(game.name));
             item.addEventListener("click", () => {
@@ -56,6 +59,8 @@ class GameFactory {
         switch (game) {
             case Games.TicTacToe:
                 return new TicTacToe;
+            case Games.BattleShips:
+                return new BattleShips;
             default:
                 throw new Error('invalid game');
         }

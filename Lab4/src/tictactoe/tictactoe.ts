@@ -1,12 +1,16 @@
+import { logGameRun } from "../commonDecorators/logGameRun";
 import { Game } from "../gameModel";
 import Board from "./Board";
 
 export class TicTacToe implements Game {
     name: string;
-
+    available:boolean;
+    
     constructor() {
+        this.available = true;
         this.name = "Kółko i krzyżyk";
     }
+    @logGameRun
     getGameElement(): HTMLElement {
         const container = document.createElement('div');
 

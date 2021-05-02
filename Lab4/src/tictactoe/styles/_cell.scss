@@ -1,16 +1,20 @@
-.cell{
-    width:100px;
-    height:100px;
-    background-color: var(--cellColor);
-    font-size:70px;
-    text-align: center;
-    color:black;
-    border: 2px solid black;
+.cell {
+  width: 100px;
+  height: 100px;
+  background-color: var(--cellColor);
+  font-size: 70px;
+  text-align: center;
+  color: black;
+  border: 2px solid black;
 }
-.winningCell{
-    background:rgb(51, 212, 51);
-    color:cornsilk;
+.winningCell {
+  background: rgb(51, 212, 51);
+  color: cornsilk;
 }
-.tieCell{
-    background:rgb(103, 156, 180);
+.tieCell {
+  background: rgb(103, 156, 180);
+}
+.highlighted {
+    background-color: rgb(202, 233, 27);
+    // transition:0.2s;
 }

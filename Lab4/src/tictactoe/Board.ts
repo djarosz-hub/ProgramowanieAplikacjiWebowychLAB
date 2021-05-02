@@ -63,7 +63,6 @@ export default class Board {
             this.setHeaderValue(this.currentSymbol);
         }
     }
-
     checkForGameFinish(): boolean {
         const size = this.tableSize;
         if (this.rowCheck(size)) {
@@ -188,7 +187,6 @@ export default class Board {
             return true;
         }
         return false;
-
     }
     cellsWithActualSymbol(): Cell[] {
         const correctCells: Cell[] = [];

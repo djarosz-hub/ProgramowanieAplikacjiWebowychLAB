@@ -1,3 +1,5 @@
+import { highlightCellChoose } from "./tttDecorators/highlightDec";
+
 export default class Cell {
     cellValue: number;
     htmlElement: HTMLElement;
@@ -8,7 +10,8 @@ export default class Cell {
         this.rowPos = rowPos;
         this.colPos = colPos;
     }
-
+    // @highlightCellChoose
+    @highlightCellChoose()
     setCellValue(value: number): boolean {
         if (this.cellValue === 1 || this.cellValue === -1)
             return false;
