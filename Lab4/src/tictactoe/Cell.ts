@@ -10,7 +10,6 @@ export default class Cell {
         this.rowPos = rowPos;
         this.colPos = colPos;
     }
-    // @highlightCellChoose
     @highlightCellChoose()
     setCellValue(value: number): boolean {
         if (this.cellValue === 1 || this.cellValue === -1)

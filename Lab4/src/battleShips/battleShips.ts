@@ -7,7 +7,6 @@ export class BattleShips implements Game {
     name: string;
     available: boolean;
     constructor() {
-        this.available = true;
         this.name = "Statki";
     }
     @logGameRun

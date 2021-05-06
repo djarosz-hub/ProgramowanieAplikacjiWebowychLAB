@@ -7,7 +7,6 @@ export class TicTacToe implements Game {
     available:boolean;
     
     constructor() {
-        this.available = true;
         this.name = "Kółko i krzyżyk";
     }
     @logGameRun

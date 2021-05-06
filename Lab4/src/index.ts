@@ -26,7 +26,7 @@ class App {
             if (isNaN(Number(gameKind)))
                 continue;
             const game = gameFactory.getGame(Number(gameKind));
-            if(!game.available)
+            if(game.available === false)
                 continue;
             const item = document.createElement('li');
             item.appendChild(document.createTextNode(game.name));

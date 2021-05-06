@@ -7,7 +7,8 @@
 //         setTimeout(() => {
 //             cell.htmlElement.classList.remove('highlighted');
 //         }, 200);
-//         console.log(orignalFn.call(this, args));
+//         const res = orignalFn.call(this, args);
+//         return res;
 //     }
 // }
 export const highlightCellChoose = () => {
