@@ -1,4 +1,50 @@
-@import 'cell';
-:root{
-    --cellColor:bisque;
+@import "cell";
+@import "../../styles/mixins";
+
+:root {
+  --cellColor: bisque;
+  --undoBtnColor: rgb(76, 86, 223);
+  --saveBtnColor: rgb(24, 170, 61);
+  --loadBtnColor: rgb(130, 145, 0);
+}
+.sessionBtn {
+  width: 150px;
+  height: 50px;
+  @include defaultBorder(2px, black);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  color:white;
+  border-radius: 10px;
+  &:hover{
+    background:chocolate;
+  }
+  
+}
+#undoBtn {
+  background-color: var(--undoBtnColor);
+  &[disabled]{
+    background:rgb(77, 77, 77);
+  }
+}
+#saveBtn {
+  background-color: var(--saveBtnColor);
+  &[disabled]{
+    background:rgb(77, 77, 77);
+  }
+}
+#loadBtn {
+  background-color: var(--loadBtnColor);
+  &[disabled]{
+    background:rgb(77, 77, 77);
+  }
+}
+.buttonsHolder{
+    width:500px;
+    position:absolute;
+    bottom:0;
+    left:calc(50% - 250px);
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
 }

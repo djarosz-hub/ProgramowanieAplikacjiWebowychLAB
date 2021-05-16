@@ -4,6 +4,9 @@ export default class Board {
     currentSymbol: number;
     tableSize: number;
     gameFinished: boolean;
+    ableToUndoMove: boolean;
+    ableToLoadGame: boolean;
+    ableToSaveGame: boolean;
     constructor(size: number) {
         this.gameFinished = false;
         this.currentSymbol = 1;
@@ -23,7 +26,13 @@ export default class Board {
             }
         }
         this.setHeaderValue(this.currentSymbol);
+        this.createSavingButtons();
+        this.ableToLoadGame = false;
+        this.ableToUndoMove = false;
+        this.ableToSaveGame = false;
+        this.checkSessionButtonsState();
     }
+    //#region logic section
     setHeaderValue(currSymbol: number): void {
         const header = <HTMLElement>document.getElementById('tttHeader');
         let val: string = "";
@@ -62,6 +71,7 @@ export default class Board {
             this.currentSymbol *= -1;
             this.setHeaderValue(this.currentSymbol);
         }
+        this.checkSessionButtonsState();
     }
     checkForGameFinish(): boolean {
         const size = this.tableSize;
@@ -195,5 +205,88 @@ export default class Board {
                 correctCells.push(cell);
         }
         return correctCells;
+    }
+    //#endregion 
+
+    createSavingButtons(): void {
+        const container = <HTMLElement>document.getElementById('gameContainer');
+        const buttonHolder = <HTMLDivElement>document.createElement('div');
+        buttonHolder.classList.add('buttonsHolder');
+
+        const undoBtn = <HTMLButtonElement>document.createElement('button');
+        undoBtn.innerHTML = 'cofnij ostatni ruch';
+        undoBtn.classList.add('sessionBtn')
+        undoBtn.setAttribute('id', 'undoBtn');
+        undoBtn.setAttribute('disabled', 'true');
+        undoBtn.addEventListener('click', () => this.undoLastMove());
+
+        const saveBtn = <HTMLButtonElement>document.createElement('button');
+        saveBtn.innerHTML = 'zapisz stan gry';
+        saveBtn.classList.add('sessionBtn');
+        saveBtn.setAttribute('id', 'saveBtn');
+        saveBtn.setAttribute('disabled', 'true');
+        saveBtn.addEventListener('click', () => this.saveGame())
+
+        const loadBtn = <HTMLButtonElement>document.createElement('button');
+        loadBtn.innerHTML = 'załaduj zapisaną gre';
+        loadBtn.classList.add('sessionBtn');
+        loadBtn.setAttribute('id', 'loadBtn');
+        loadBtn.setAttribute('disabled', 'true');
+        loadBtn.addEventListener('click', () => this.loadGame())
+
+        buttonHolder.appendChild(undoBtn);
+        buttonHolder.appendChild(loadBtn);
+        buttonHolder.appendChild(saveBtn);
+
+        container.appendChild(buttonHolder)
+    }
+    checkSessionButtonsState(): void {
+        const lastMoveAvailable = sessionStorage.getItem('lastMove');
+        if (lastMoveAvailable) {
+            this.ableToUndoMove = true;
+        }
+        const savedGameAvailable = localStorage.getItem('savedGame');
+        if (savedGameAvailable) {
+            this.ableToLoadGame = true;
+        }
+        const anyMoveOnBoard = this.cells.some(x => x.cellValue !== undefined);
+        if (anyMoveOnBoard)
+            this.ableToSaveGame = true;
+        this.refreshSessionButtonsAvailability();
+    }
+    refreshSessionButtonsAvailability(): void {
+        const loadBtn = document.getElementById('loadBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const undoBtn = document.getElementById('undoBtn');
+        if(this.ableToUndoMove){
+            undoBtn?.removeAttribute('disabled');
+        }
+        else{
+            undoBtn?.setAttribute('disabled','true');
+        }
+
+        if(this.ableToSaveGame){
+            saveBtn?.removeAttribute('disabled');
+        }
+        else{
+            saveBtn?.setAttribute('disabled','true');
+        }
+
+        if(this.ableToLoadGame){
+            loadBtn?.removeAttribute('disabled');
+        }
+        else{
+            loadBtn?.setAttribute('disabled','true');
+        }
+    }
+
+    saveGame(): void {
+        console.log(this)
+    }
+    loadGame(): void {
+        console.log(this)
+    }
+    undoLastMove(): void {
+        console.log(this)
     }
 }
