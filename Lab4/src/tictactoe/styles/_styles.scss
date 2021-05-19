@@ -11,40 +11,55 @@
   width: 150px;
   height: 50px;
   @include defaultBorder(2px, black);
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  color:white;
+  color: white;
   border-radius: 10px;
-  &:hover{
-    background:chocolate;
-  }
-  
 }
+
 #undoBtn {
   background-color: var(--undoBtnColor);
-  &[disabled]{
-    background:rgb(77, 77, 77);
+  &:hover {
+    background: chocolate;
+  }
+  &:active {
+    background: rgb(236, 64, 64);
+  }
+  &[disabled] {
+    background: rgb(77, 77, 77);
   }
 }
 #saveBtn {
   background-color: var(--saveBtnColor);
-  &[disabled]{
-    background:rgb(77, 77, 77);
+  &:hover {
+    background: chocolate;
+  }
+  &:active {
+    background: rgb(236, 64, 64);
+  }
+  &[disabled] {
+    background: rgb(77, 77, 77);
   }
 }
 #loadBtn {
   background-color: var(--loadBtnColor);
-  &[disabled]{
-    background:rgb(77, 77, 77);
+  &:hover {
+    background: chocolate;
+  }
+  &:active {
+    background: rgb(236, 64, 64);
+  }
+  &[disabled] {
+    background: rgb(77, 77, 77);
   }
 }
-.buttonsHolder{
-    width:500px;
-    position:absolute;
-    bottom:0;
-    left:calc(50% - 250px);
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
+.buttonsHolder {
+  width: 500px;
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 250px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

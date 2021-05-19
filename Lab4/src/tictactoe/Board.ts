@@ -1,4 +1,6 @@
 import Cell from "./Cell";
+import StoredCell from './StoredCell';
+
 export default class Board {
     cells: Cell[];
     currentSymbol: number;
@@ -72,6 +74,8 @@ export default class Board {
             this.setHeaderValue(this.currentSymbol);
         }
         this.checkSessionButtonsState();
+        console.log(this.cells);
+
     }
     checkForGameFinish(): boolean {
         const size = this.tableSize;
@@ -207,7 +211,7 @@ export default class Board {
         return correctCells;
     }
     //#endregion 
-
+    //#region buttonsUtils
     createSavingButtons(): void {
         const container = <HTMLElement>document.getElementById('gameContainer');
         const buttonHolder = <HTMLDivElement>document.createElement('div');
@@ -232,7 +236,10 @@ export default class Board {
         loadBtn.classList.add('sessionBtn');
         loadBtn.setAttribute('id', 'loadBtn');
         loadBtn.setAttribute('disabled', 'true');
-        loadBtn.addEventListener('click', () => this.loadGame())
+        loadBtn.addEventListener('click', () => {
+            this.loadGame();
+            this.refreshField();
+        })
 
         buttonHolder.appendChild(undoBtn);
         buttonHolder.appendChild(loadBtn);
@@ -245,7 +252,7 @@ export default class Board {
         if (lastMoveAvailable) {
             this.ableToUndoMove = true;
         }
-        const savedGameAvailable = localStorage.getItem('savedGame');
+        const savedGameAvailable = localStorage.getItem('savedGameCells');
         if (savedGameAvailable) {
             this.ableToLoadGame = true;
         }
@@ -258,33 +265,70 @@ export default class Board {
         const loadBtn = document.getElementById('loadBtn');
         const saveBtn = document.getElementById('saveBtn');
         const undoBtn = document.getElementById('undoBtn');
-        if(this.ableToUndoMove){
+        if (this.ableToUndoMove) {
             undoBtn?.removeAttribute('disabled');
         }
-        else{
-            undoBtn?.setAttribute('disabled','true');
+        else {
+            undoBtn?.setAttribute('disabled', 'true');
         }
 
-        if(this.ableToSaveGame){
+        if (this.ableToSaveGame) {
             saveBtn?.removeAttribute('disabled');
         }
-        else{
-            saveBtn?.setAttribute('disabled','true');
+        else {
+            saveBtn?.setAttribute('disabled', 'true');
         }
 
-        if(this.ableToLoadGame){
+        if (this.ableToLoadGame) {
             loadBtn?.removeAttribute('disabled');
         }
-        else{
-            loadBtn?.setAttribute('disabled','true');
+        else {
+            loadBtn?.setAttribute('disabled', 'true');
         }
     }
-
+    //#endregion
+    //#region data converting
+    stringifyCells(): string {
+        const cellsInfo: StoredCell[] = [];
+        this.cells.forEach(cell => {
+            const cellInfo: StoredCell = { cellId: cell.cellId, cellValue: cell.cellValue }
+            cellsInfo.push(cellInfo);
+        });
+        return JSON.stringify(cellsInfo);
+    }
+    parseCellValues(stringifiedCells: string): StoredCell[] {
+        return <StoredCell[]>JSON.parse(stringifiedCells);
+    }
+    //#endregion
     saveGame(): void {
-        console.log(this)
+        const cells: string = this.stringifyCells();
+        localStorage.setItem('savedGameCells', cells);
+        localStorage.setItem('currentMove', JSON.stringify(this.currentSymbol));
     }
     loadGame(): void {
-        console.log(this)
+
+        const savedCells = localStorage.getItem('savedGameCells');
+        const savedMove = localStorage.getItem('currentMove');
+        if (typeof savedCells !== 'string' || typeof savedMove !== 'string')
+            return;
+        const parsedCells: StoredCell[] = this.parseCellValues(savedCells);
+        const currentMove: number = <number>JSON.parse(savedMove);
+        this.currentSymbol = currentMove;
+        parsedCells.forEach(parsedCell => {
+            const actualCellId = this.cells.findIndex(el => el.cellId === parsedCell.cellId)
+            this.cells[actualCellId].cellId = parsedCell.cellId;
+            this.cells[actualCellId].cellValue = parsedCell.cellValue;
+        })
+    }
+    refreshField(): void {
+
+        this.cells.forEach(cell => {
+            cell.setCellValue(cell.cellValue)
+        });
+        this.setHeaderValue(this.currentSymbol);
+    }
+    saveLastMove(): void {
+
     }
     undoLastMove(): void {
         console.log(this)
