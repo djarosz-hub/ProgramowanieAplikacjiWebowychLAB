@@ -32,6 +32,7 @@ export default class Board {
         this.ableToLoadGame = false;
         this.ableToUndoMove = false;
         this.ableToSaveGame = false;
+        sessionStorage.clear();
         this.checkSessionButtonsState();
     }
     //#region logic section
@@ -65,37 +66,35 @@ export default class Board {
     makeMove(cell: Cell): void {
         if (this.gameFinished)
             return;
+        this.saveLastMove();
         if (cell.setCellValue(this.currentSymbol)) {
             if (this.checkForGameFinish()) {
                 this.gameFinished = true;
+                this.refreshSessionButtonsAvailability();
                 return;
             }
             this.currentSymbol *= -1;
             this.setHeaderValue(this.currentSymbol);
         }
         this.checkSessionButtonsState();
-        console.log(this.cells);
-
     }
     checkForGameFinish(): boolean {
         const size = this.tableSize;
-        if (this.rowCheck(size)) {
+        let flag: boolean = false;
+        if (this.rowCheck(size) || this.columnCheck(size) || this.diagonalCheck(size)) {
             this.setHeaderValue(this.currentSymbol * 10);
-            return true;
+            flag = true;
         }
-        if (this.columnCheck(size)) {
-            this.setHeaderValue(this.currentSymbol * 10);
-            return true;
-        }
-        if (this.diagonalCheck(size)) {
-            this.setHeaderValue(this.currentSymbol * 10);
-            return true;
-        }
-        if (this.tieCheck(size)) {
+        if (!flag && this.tieCheck()) {
             this.setHeaderValue(0);
-            return true;
+            flag = true;
         }
-        return false;
+        if (flag) {
+            this.ableToSaveGame = false;
+            this.ableToUndoMove = false;
+            this.ableToLoadGame = false;
+        }
+        return flag;
     }
     rowCheck(size: number): boolean {
         const cells = this.cellsWithActualSymbol();
@@ -192,8 +191,8 @@ export default class Board {
         }
         return false;
     }
-    tieCheck(size: number): boolean {
-        const cellsFilled: Cell[] = this.cells.filter(cell => cell.cellValue == undefined);
+    tieCheck(): boolean {
+        const cellsFilled: Cell[] = this.cells.filter(cell => cell.cellValue == undefined || isNaN(cell.cellValue));
         if (cellsFilled.length === 0) {
             for (const cell of this.cells) {
                 cell.htmlElement.classList.add('tieCell');
@@ -211,7 +210,7 @@ export default class Board {
         return correctCells;
     }
     //#endregion 
-    //#region buttonsUtils
+    //#region buttons utils
     createSavingButtons(): void {
         const container = <HTMLElement>document.getElementById('gameContainer');
         const buttonHolder = <HTMLDivElement>document.createElement('div');
@@ -222,7 +221,10 @@ export default class Board {
         undoBtn.classList.add('sessionBtn')
         undoBtn.setAttribute('id', 'undoBtn');
         undoBtn.setAttribute('disabled', 'true');
-        undoBtn.addEventListener('click', () => this.undoLastMove());
+        undoBtn.addEventListener('click', () => {
+            this.getLastMoveFromSS();
+            this.clearAfterLoad();
+        });
 
         const saveBtn = <HTMLButtonElement>document.createElement('button');
         saveBtn.innerHTML = 'zapisz stan gry';
@@ -237,8 +239,8 @@ export default class Board {
         loadBtn.setAttribute('id', 'loadBtn');
         loadBtn.setAttribute('disabled', 'true');
         loadBtn.addEventListener('click', () => {
-            this.loadGame();
-            this.refreshField();
+            this.getGameFromLC();
+            this.clearAfterLoad();
         })
 
         buttonHolder.appendChild(undoBtn);
@@ -252,9 +254,15 @@ export default class Board {
         if (lastMoveAvailable) {
             this.ableToUndoMove = true;
         }
+        else {
+            this.ableToUndoMove = false;
+        }
         const savedGameAvailable = localStorage.getItem('savedGameCells');
         if (savedGameAvailable) {
             this.ableToLoadGame = true;
+        }
+        else {
+            this.ableToLoadGame = false;
         }
         const anyMoveOnBoard = this.cells.some(x => x.cellValue !== undefined);
         if (anyMoveOnBoard)
@@ -286,6 +294,11 @@ export default class Board {
             loadBtn?.setAttribute('disabled', 'true');
         }
     }
+    clearAfterLoad(): void {
+        sessionStorage.clear();
+        this.refreshField();
+        this.checkSessionButtonsState();
+    }
     //#endregion
     //#region data converting
     stringifyCells(): string {
@@ -300,37 +313,49 @@ export default class Board {
         return <StoredCell[]>JSON.parse(stringifiedCells);
     }
     //#endregion
+    //#region storage funcs
     saveGame(): void {
         const cells: string = this.stringifyCells();
         localStorage.setItem('savedGameCells', cells);
         localStorage.setItem('currentMove', JSON.stringify(this.currentSymbol));
     }
-    loadGame(): void {
-
+    loadGame(savedCells: string, savedMove: string): void {
+        const parsedCells: StoredCell[] = this.parseCellValues(savedCells);
+        const currentMove: number = <number>JSON.parse(savedMove);
+        this.currentSymbol = currentMove;
+        this.cells.forEach(cell => cell.cellValue = NaN);
+        parsedCells.forEach(parsedCell => {
+            const actualCellId = this.cells.findIndex(el => el.cellId === parsedCell.cellId)
+            this.cells[actualCellId].cellId = parsedCell.cellId;
+            if (parsedCell.cellValue) {
+                this.cells[actualCellId].cellValue = parsedCell.cellValue;
+            }
+        });
+    }
+    getLastMoveFromSS(): void {
+        const savedCells = sessionStorage.getItem('savedGameCells');
+        const savedMove = sessionStorage.getItem('lastMove');
+        if (typeof savedCells !== 'string' || typeof savedMove !== 'string')
+            return;
+        this.loadGame(savedCells, savedMove);
+    }
+    getGameFromLC(): void {
         const savedCells = localStorage.getItem('savedGameCells');
         const savedMove = localStorage.getItem('currentMove');
         if (typeof savedCells !== 'string' || typeof savedMove !== 'string')
             return;
-        const parsedCells: StoredCell[] = this.parseCellValues(savedCells);
-        const currentMove: number = <number>JSON.parse(savedMove);
-        this.currentSymbol = currentMove;
-        parsedCells.forEach(parsedCell => {
-            const actualCellId = this.cells.findIndex(el => el.cellId === parsedCell.cellId)
-            this.cells[actualCellId].cellId = parsedCell.cellId;
-            this.cells[actualCellId].cellValue = parsedCell.cellValue;
-        })
-    }
-    refreshField(): void {
-
-        this.cells.forEach(cell => {
-            cell.setCellValue(cell.cellValue)
-        });
-        this.setHeaderValue(this.currentSymbol);
+        this.loadGame(savedCells, savedMove);
     }
     saveLastMove(): void {
-
+        const cells: string = this.stringifyCells();
+        sessionStorage.setItem('savedGameCells', cells);
+        sessionStorage.setItem('lastMove', JSON.stringify(this.currentSymbol));
     }
-    undoLastMove(): void {
-        console.log(this)
+    //#endregion
+    refreshField(): void {
+        this.setHeaderValue(this.currentSymbol);
+        this.cells.forEach(cell => {
+            cell.refreshCellValue(cell.cellValue)
+        });
     }
 }
