@@ -88,5 +88,6 @@ const config4 = {
     filename: 'index.js'
   }
 };
+
 // module.exports = [config1, config2, config3, config4];
 module.exports = config4;
