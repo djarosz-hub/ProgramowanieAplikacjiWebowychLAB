@@ -1,0 +1,21 @@
+GET http://localhost:3000/categories HTTP/1.1
+
+###
+POST http://localhost:3000/categories HTTP/1.1
+content-type: application/json
+
+{
+    "name": "pralki2"
+}
+
+###
+DELETE http://localhost:3000/categories/1622750019068 HTTP/1.1
+
+###
+PUT http://localhost:3000/categories HTTP/1.1
+content-type: application/json
+
+{
+    "id":1622750019057,
+    "name": "test"
+}
