@@ -5,17 +5,22 @@ POST http://localhost:3000/categories HTTP/1.1
 content-type: application/json
 
 {
-    "name": "pralki2"
+    "name": "rtv"
 }
 
 ###
-DELETE http://localhost:3000/categories/1622750019068 HTTP/1.1
+DELETE http://localhost:3000/categories HTTP/1.1
+content-type: application/json
+
+{
+    "id":"60baa830c556d5288caea098"
+}
 
 ###
 PUT http://localhost:3000/categories HTTP/1.1
 content-type: application/json
 
 {
-    "id":1622750019057,
-    "name": "test"
+    "id":"60baa830c556d5288caea098",
+    "name": "pralki"
 }

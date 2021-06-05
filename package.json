@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/djarosz-hub/ProgramowanieAplikacjiWebowychLAB#readme",
   "dependencies": {
+    "mongoose": "^5.12.12",
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
     "ts-loader": "^8.0.18",

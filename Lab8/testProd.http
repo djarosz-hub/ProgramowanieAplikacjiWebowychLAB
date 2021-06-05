@@ -7,18 +7,25 @@ content-type: application/json
 {
     "name": "Telewizor",
     "description": "Telewizor plazmowy1",
-    "price": 5000
+    "price": 50000,
+    "category": "60baa830c556d5288caea098"
 }
 
 ###
-DELETE http://localhost:3000/products/1622498258420 HTTP/1.1
+DELETE http://localhost:3000/products HTTP/1.1
+content-type: application/json
+
+{
+    "id": "60baa616857f9b43a056adc8"
+}
 
 ###
 PUT http://localhost:3000/products HTTP/1.1
 content-type: application/json
 
 {
-    "id":1622498258872,
-    "name": "samolot",
-    "price": 2
+    "id":"60baa614857f9b43a056adc6",
+    "name": "dsdsd",
+    "description": "bardzo a",
+    "price": 200
 }
